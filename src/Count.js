@@ -1,79 +1,56 @@
 import React from 'react';
 
-
-
-export class CountClass extends React.Component {
-
-  state = {
-    count: 0,
-    otra: 10,
-  }
+export class Count extends React.Component {
 
   constructor(props){
     super(props);
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      count: 0,
+      number: 0,
+    };
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
-  handleClick(){
-    this.setState({ count: this.state.count + 1 })
+  handleAdd(){
+    this.setState({ count: this.state.count + 1 });
   }
 
-  render(){
-    return (
-      <div className="App">
-  
-        Count: {this.state.count}
-        <br />
-        <button onClick={this.handleClick}>
-          Add
-        </button>
-  
-      </div>
-    );
+  render() {
+    return <div>
+      {this.state.count} <button onClick={this.handleAdd}>add</button>
+    </div>;
   }
 }
 
-
-
-export function Count (props) {
+export const CountHook = () => {
   const [ count, setCount ] = React.useState(0);
-  const [ otra, setOtra ] = React.useState('inicial');
+  const [ number, setNumber ] = React.useState(0);
 
-  const handleClick = () => {
+  const handleAdd = () => {
     setCount(count + 1);
   }
 
-  const handleClick2 = () => {
-    setOtra(otra + 10);
+  const handleNumber = () => {
+    setNumber(number + 10);
   }
+  
+  React.useEffect(() => {
+    console.log('effect count');
+
+    return () => {
+      console.log('unmount');
+    }
+  }, [count, number]);
 
   React.useEffect(() => {
-    paragraph.current.style.background = `rgb(0,0,${Math.round(Math.random() * 200 + 50)})`;
-  }, [count]);
+    console.log('effect number');
+  }, [number]);
 
-  const paragraph = React.useRef();
+  //console.log('render');
 
-  return (
-    <div className="App">
-
-      <p ref={paragraph}>
-        test
-      </p>
-
-      Count: {count}
-      <br />
-      <button onClick={handleClick}>
-        Add
-      </button>
-
-      <br />
-
-      Count: {otra}
-      <br />
-      <button onClick={handleClick2}>
-        Add
-      </button>
-
-    </div>
-  );
+  return <div>
+    {count} <button onClick={handleAdd}>add</button>
+    <hr />
+    {number} <button onClick={handleNumber}>add</button>
+  </div>;
 }

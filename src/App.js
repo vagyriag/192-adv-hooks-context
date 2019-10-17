@@ -1,14 +1,30 @@
 import React from 'react';
-import './App.css';
-import { Count, CountClass } from './Count';
+import { NewMessageBar } from './NewMessageBar';
+import { MessagesContext } from './MessagesContext';
+import { useLocalStorage } from './useLocalStorage';
+import { WSComp } from './WSComp';
 
 function App() {
 
+  const [ messages, setMessages ] = useLocalStorage('messages', []);
+
+  const handleSend = (newMessage) => {
+    setMessages([ ...messages, { user: 'Gavi', message: newMessage } ]);
+  }
+
   return (
     <div className="App">
+      <MessagesContext.Provider value={{ messages, setMessages }}>
+        <ul>
+          {messages.map(({ user, message }, index) => {
+            return <li key={user + message + index}><b>{user}</b> - {message}</li>;
+          })}
+        </ul>
 
-      <Count />
-      <CountClass />
+        <NewMessageBar  />
+
+        <WSComp />
+      </MessagesContext.Provider>
     </div>
   );
 }
