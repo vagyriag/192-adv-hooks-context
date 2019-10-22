@@ -11,7 +11,7 @@ export const NewMessageBar = (props) => {
 
   const handleSend = () => {
     //props.handleSend(newMessage);
-    context.setMessages([ ...context.messages, { user: 'Gavi', message: newMessage } ]);
+    context.handleSend({ user: 'Gavi', message: newMessage });
     setNewMessage('');
   }
 
